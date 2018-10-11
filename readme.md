@@ -95,6 +95,7 @@ Request body:
 | Fields | Key-value pair collection. Values will be injected into template when writing |
 | Address | Address where result need to be posted to |
 | BulkDispatch | Whether order need to be bundled and dispatched in bulk |
+| CountryCode | Country code is an [ISO 3166-1 alpha 3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) country code
 
 When specifying BulkDispatch, all requests to the same address will be accumulated and dispatched based on frequency set up in template.
 
