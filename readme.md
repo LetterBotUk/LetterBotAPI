@@ -27,7 +27,7 @@ The template defines:
 - paper size, type and quantity
 - content and placeholders the content uses
 - postage options (1st class, 2nd class, bundle daily or weekly, etc.)
-- processing options (audit trail, pre-printed, supplied stationary, etc.)
+- processing options (audit trail, pre-printed, supplied stationery, etc.)
 - add-on services (audit trail, engagement tracking, etc.)
 
 The process of preparing a template also ensures the suggested content will fit onto desired page size.
