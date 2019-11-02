@@ -146,8 +146,15 @@ Example payload:
 
 ````
 {
+    "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
     "title": "One or more validation errors occurred.",
-    "detail": "Template code is not found"
+    "status": 400,
+    "traceId": "00-e4f35e4fffaa0241a6ff119a86b73ba1-f4478f8496e9454c-00",
+    "errors": {
+        "Template": [
+            "Template code is required"
+        ]
+    }
 }
 ````
 
