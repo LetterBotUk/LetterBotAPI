@@ -85,6 +85,7 @@ Request body:
 		"PostCode": "London",
 		"CountryCode": "GBR"
 	},
+	"ExternalRef": "SO1201",
 	"BulkDispatch": false
 }
 ```
@@ -94,6 +95,7 @@ Request body:
 | Template | Template to use when processing request |
 | Fields | Key-value pair collection. Values will be injected into template when writing |
 | Address | Address where result need to be posted to |
+| ExternalRef | Optional reference, for example your sales order or transaction number |
 | BulkDispatch | Whether order need to be bundled and dispatched in bulk |
 | CountryCode | Country code is an [ISO 3166-1 alpha 3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) country code
 
@@ -168,10 +170,54 @@ Request prices are pre-set based on template code, destination country and bulk 
 
 # Check Order Status
 
-To check order status please send GET request to the following URL with id you have received from Create Order response:
+To check order status please send GET request to the following URL:
 
 ````
-https://api.letterbot.co.uk/api/order?id=<your order id>
+https://api.letterbot.co.uk/api/order
 ````
 
-Response is the same as Create Order.
+The following filters available:
+
+| Filter | Description |  
+|-----------|-----------|  
+| id | Request Id provided in response when sending a new order through |
+| status | Request status, one of the following values: queued, processing, completed |
+| lastUpdated | Returns records updated since provided date and time |
+
+An example request is:
+
+````
+https://api.letterbot.co.uk/api/order?lastUpdated=2019-11-05T10:55:15&status=queued
+````
+
+Please note that result is limited to 1000 records.
+
+Example response:
+````
+[
+    {
+        "template": "TEST",
+        "fields": {
+            "FirstName": "Romey"
+            "LastDate": "22nd December"
+        },
+        "cost": 2.1500,
+        "status": "Queued",
+        "externalRef": "PO12192",
+        "updated": "2019-08-01T08:32:40.5902347",
+        "id": 2
+    },
+    {
+        "template": "TEST",
+        "fields": {
+            "FirstName": "Jane",
+            "LastDate": "27th December"
+        },
+        "cost": 1.7800,
+        "status": "Queued",
+        "externalRef": "PO12198",
+        "updated": "2019-09-11T16:06:11.5901823",
+        "id": 3
+    }
+]
+````
