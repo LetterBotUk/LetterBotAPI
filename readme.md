@@ -36,11 +36,11 @@ Templates work in similar way to Microsoft Word MailMerge. The text can contain 
 
 A typical template would look like this:
 
-> Dear %COL[FirstName]%,
+> Dear {FirstName},
 > 
 > Thank you for booking your stay with our hotel.
 > 
-> We are looking forward to welcoming you on %COL[CheckInDate]%
+> We are looking forward to welcoming you on {EventDate}
 > 
 > Yours sincerely,
 > Robert Smith
@@ -50,9 +50,46 @@ A typical template would look like this:
 Templates can be very simple where whole text is supplied every time with an order or quite sophisticated and, for example, include author's signature. 
 
 Please [get in touch](https://www.letterbot.co.uk/pages/contact-us) with us in order to set up one for your project.
-Same account can have multiple templates.
+An account can have multiple templates.
 
 Once template is set up we will provide you with a code you can use when placing order.
+
+## Endpoint
+
+Send GET request to the following endpoing to get list of available templates and their associated fields:
+
+````
+https://api.letterbot.co.uk/api/template
+````
+
+## Response
+
+Successful response message:
+
+```
+[
+    {
+        "code": "TEST",
+        "name": "Test Template",
+        "fields": [
+            "FirstName"
+        ]
+    },
+    {
+        "code": "WLCMLTR",
+        "name": "Welcome Letter",
+        "fields": null
+    }
+]
+```
+
+Response contains collection of templates, including required fields that need be to specified when sending an order.
+
+| Field | Description |  
+|-----------|-----------|  
+| code | Template code. Use it when sending order request |
+| name | User friendly template name |
+| fields | collection of configured fields. It is mandatory to submit values for these fields when placing an order via API |
 
 # Placing an Order
 
@@ -108,12 +145,18 @@ Successful response example:
 
 ````
 {
+	"account": {
+		"accountNo": "TST01",
+		"name": "Test Account",
+	},
     "template": "TEST",
     "fields": {
         "FirstName": "John",
         "CheckInDate": "2nd December 2018"
     },
     "cost": 1.18,
+	"vat": 0.24,
+	"total": 1.42,
     "status": "Queued",
     "id": 2
 }
@@ -124,7 +167,10 @@ Successful response example:
 | id | Request Id. Use this value to check status later |
 | status | Request status. See Status Values for more details|
 | cost | Amount that will be charged as soon as request is processed and completed |
-| template | Requested template |
+| vat | VAT amount applied to the request
+| total | Total cost, including VAT, of the request deducted from your balance
+| template | Requested template
+| account | Account code and name request applied to. Normally used to manage multiple accounts for re-sellers. 
 
 ## Status Values
 
@@ -136,6 +182,7 @@ Successful response example:
 | Error | There is a problem with request. See errorDescription field for more information|
 | Processed | The order has been processed and waiting to be posted |
 | Complete | The order has been posted |
+| PendingBalance | Request accepted but will not go into production until there is enough balance on the account to cover the total amount
 
 
 ## Errors
@@ -196,28 +243,40 @@ Example response:
 ````
 [
     {
+        "account": {
+            "accountNo": "TEST01",
+            "name": "Test Account"
+        },
         "template": "TEST",
         "fields": {
-            "FirstName": "Romey"
-            "LastDate": "22nd December"
+            "FirstName": "Alex",
+            "LastDate": "10th December"
         },
-        "cost": 2.1500,
+        "cost": 2.2000,
+        "vat": 0.44,
+        "total": 2.64,
         "status": "Queued",
-        "externalRef": "PO12192",
-        "updated": "2019-08-01T08:32:40.5902347",
-        "id": 2
+        "externalRef": "3110",
+        "updated": "2020-02-06T17:53:36.8202258",
+        "id": 50
     },
     {
+        "account": {
+            "accountNo": "TEST01",
+            "name": "Test Account"
+        },
         "template": "TEST",
         "fields": {
-            "FirstName": "Jane",
-            "LastDate": "27th December"
+            "FirstName": "Romey",
+            "LastDate": "22nd December",
         },
-        "cost": 1.7800,
+        "cost": 2.2000,
+        "vat": 0.44,
+        "total": 2.64,
         "status": "Queued",
-        "externalRef": "PO12198",
-        "updated": "2019-09-11T16:06:11.5901823",
-        "id": 3
+        "externalRef": null,
+        "updated": "2020-03-10T10:15:14.3171266",
+        "id": 51
     }
 ]
 ````
