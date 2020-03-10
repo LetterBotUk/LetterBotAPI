@@ -145,10 +145,10 @@ Successful response example:
 
 ````
 {
-	"account": {
-		"accountNo": "TST01",
-		"name": "Test Account",
-	},
+    "account": {
+	"accountNo": "TST01",
+	"name": "Test Account",
+    },
     "template": "TEST",
     "fields": {
         "FirstName": "John",
