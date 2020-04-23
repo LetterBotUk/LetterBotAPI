@@ -280,3 +280,48 @@ Example response:
     }
 ]
 ````
+
+# Cancel an order
+
+An order that is in Queued or PendingBalance status can be cancelled sending a POST request to:
+
+````
+https://api.letterbot.co.uk/api/order/cancel
+````
+
+with request body:
+```
+{
+    "id": 1721,
+    "refNo": "CO281"
+}
+```
+
+| Field | Description |  
+|-----------|-----------|  
+| id | Request Id, returned by order request when order is placed|
+| refNo | Reference number provided when placing an order |
+
+Either *id* or *refNo* must be supplied. If *id* field is supplied, then *refNo* is ignored.
+
+Method returns an order model same as status update does with status set to *Cancelled*:
+
+```
+{
+    "account": {
+        "accountNo": "TEST01",
+        "name": "Test Account"
+    },
+    "template": null,
+    "fields": {
+        "First Name": "John"
+    },
+    "cost": 0.7600,
+    "vat": 0.15,
+    "total": 0.91,
+    "status": "Cancelled",
+    "externalRef": null,
+    "updated": "2020-04-23T13:54:34.8433121Z",
+    "id": 18827
+}
+```
