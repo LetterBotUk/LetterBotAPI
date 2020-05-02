@@ -283,7 +283,7 @@ Example response:
 
 # Cancel an order
 
-An order that is in Queued or PendingBalance status can be cancelled sending a POST request to:
+An order that is in Queued or PendingBalance status can be cancelled sending a PUT request to:
 
 ````
 https://api.letterbot.co.uk/api/order/cancel
