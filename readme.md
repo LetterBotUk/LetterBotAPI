@@ -66,7 +66,7 @@ https://api.letterbot.co.uk/api/template
 
 Successful response message:
 
-```
+```json
 [
     {
         "code": "TEST",
@@ -105,7 +105,7 @@ https://api.letterbot.co.uk/api/order
 
 Request body:
 
-```
+```json
 {
 	"Template": "TST",
 	"Fields": {
@@ -143,7 +143,7 @@ When specifying BulkDispatch, all requests to the same address will be accumulat
 
 Successful response example:
 
-````
+```json
 {
     "account": {
 	"accountNo": "TST01",
@@ -160,7 +160,7 @@ Successful response example:
     "status": "Queued",
     "id": 2
 }
-````
+```
 
 | Field | Description |  
 |-----------|-----------|  
@@ -193,7 +193,7 @@ Server response status: 400 Bad Request
 
 Example payload:
 
-````
+```json
 {
     "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
     "title": "One or more validation errors occurred.",
@@ -205,7 +205,7 @@ Example payload:
         ]
     }
 }
-````
+```
 
 ### Authentication error
 
@@ -240,7 +240,7 @@ https://api.letterbot.co.uk/api/order?lastUpdated=2019-11-05T10:55:15&status=que
 Please note that result is limited to 1000 records.
 
 Example response:
-````
+```json
 [
     {
         "account": {
@@ -279,7 +279,7 @@ Example response:
         "id": 51
     }
 ]
-````
+```
 
 # Cancel an order
 
@@ -290,7 +290,7 @@ https://api.letterbot.co.uk/api/order/cancel
 ````
 
 with request body:
-```
+```json
 {
     "id": 1721,
     "refNo": "CO281"
@@ -306,7 +306,7 @@ Either *id* or *refNo* must be supplied. If *id* field is supplied, then *refNo*
 
 Method returns an order model same as status update does with status set to *Cancelled*:
 
-```
+```json
 {
     "account": {
         "accountNo": "TEST01",
@@ -323,5 +323,35 @@ Method returns an order model same as status update does with status set to *Can
     "externalRef": null,
     "updated": "2020-04-23T13:54:34.8433121Z",
     "id": 18827
+}
+```
+
+# Check account balance
+
+To check account balance please send GET request to the following URL:
+
+````
+https://api.letterbot.co.uk/api/balance
+````
+
+The following parameters available:
+
+| Filter | Description |  
+|-----------|-----------|  
+| accountNo | *Resellers only* Associated account No |
+
+An example request is:
+
+````
+https://api.letterbot.co.uk/api/balance
+````
+
+An example response is:
+
+```json
+{
+    "accountNo": "SMPLS12T",
+    "name": "Best Agency Ltd",
+    "balance": 34.20
 }
 ```
